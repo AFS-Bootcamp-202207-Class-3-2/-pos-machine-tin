@@ -3,7 +3,7 @@ package pos.machine;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+
 
 public class PosMachine {
     public String printReceipt(List<String> barcodes) {
@@ -56,5 +56,16 @@ public class PosMachine {
         return total;
     }
 
-    
+    public String generateReceipt(List<Receipt> productDetails) {
+        String receipt = "***<store earning no money>Receipt***\n";
+        for (Receipt productDetail : productDetails) {
+            receipt += "Name: " + productDetail.getName() + ", Quantity: "+ productDetail.getQuantity() +
+                    ", Unit price: "+ productDetail.getPrice() +" (yuan), Subtotal: "
+                    + productDetail.getSubtotal() +" (yuan)\n";
+        }
+        receipt +="----------------------\n" +
+                "Total: "+ calcToTal(productDetails) +" (yuan)\n" +
+                "**********************";
+        return receipt;
+    }
 }
