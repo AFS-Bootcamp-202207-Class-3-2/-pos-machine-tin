@@ -7,8 +7,10 @@ import java.util.List;
 
 public class PosMachine {
     public String printReceipt(List<String> barcodes) {
-
-        return null;
+        List<Receipt> receiptsBasicInfo = convertToItemInfo();
+        List<Receipt> calcForReceipts = calcToTalQuantityAndSubtotal(barcodes, receiptsBasicInfo);
+        String receipt = generateReceipt(calcForReceipts);
+        return receipt;
     }
     public List<Receipt> convertToItemInfo() {
         List<ItemInfo> itemDetail =  getItemInfos();
@@ -18,6 +20,7 @@ public class PosMachine {
             receipt.setBarcode(itemInfo.getBarcode());
             receipt.setName(itemInfo.getName());
             receipt.setPrice(itemInfo.getPrice());
+            receipts.add(receipt);
         }
         return receipts;
     }
@@ -38,7 +41,7 @@ public class PosMachine {
         }
         for (Receipt receipt : receipts) {
             toTalQuantityMap.forEach((barcode,quantity)->{
-                if(receipt.getBarcode() == barcode){
+                if(receipt.getBarcode().equals(barcode)){
                     receipt.setQuantity(quantity);
                     receipt.setSubtotal(quantity * receipt.getPrice());
                 }
